@@ -252,13 +252,7 @@
     <div class="container">
         <div class="header">
             <h1>🏏 16-Over Cricket Match Points Calculator</h1>
-            <p>Calculates points for teams based on the detailed scoring system:</p>
-            <p>- 30 total points per game</p>
-            <p>- Winning team: 20 + leftover bonus points</p>
-            <p>- Losing team: max 10 bonus points (batting + bowling)</p>
-            <p>- Tie: 15 points each, no bonus</p>
-            <p>- Special case: All out with &lt;8 players gives max bowling points</p>
-            <p><strong>✅ FIXED: Corrected batting points logic!</strong></p>
+            <p>Santhosh Pillai</p>
         </div>
 
         <div id="step1" class="step-section">
@@ -266,12 +260,12 @@
             
             <div class="input-group">
                 <label for="team1-name">Team 1 name:</label>
-                <input type="text" id="team1-name" placeholder="Team 1" value="Team 1">
+                <input type="text" id="team1-name" value="Team 1">
             </div>
             
             <div class="input-group">
                 <label for="team2-name">Team 2 name:</label>
-                <input type="text" id="team2-name" placeholder="Team 2" value="Team 2">
+                <input type="text" id="team2-name" value="Team 2">
             </div>
             
             <button class="button" onclick="proceedToMatchResult()">Next ➡️</button>
@@ -310,7 +304,7 @@
                 <div class="input-group">
                     <label id="winner-overs-label">Winner overs faced:</label>
                     <input type="number" id="winner-overs" min="0" max="16" step="0.1" 
-                           placeholder="e.g., 15.4 (15 overs, 4 balls)" required>
+                           placeholder="e.g., 15.4" required>
                 </div>
                 <div class="input-group">
                     <label id="loser-runs-label">Loser total runs:</label>
@@ -319,7 +313,7 @@
                 <div class="input-group">
                     <label id="loser-overs-label">Loser overs faced:</label>
                     <input type="number" id="loser-overs" min="0" max="16" step="0.1" 
-                           placeholder="e.g., 15.4 (15 overs, 4 balls)" required>
+                           placeholder="e.g., 12.1" required>
                 </div>
             </div>
             
@@ -354,8 +348,8 @@
             <div class="step-title">Special Case Check:</div>
             
             <div class="input-group">
-                <label id="players-label">Number of players in losing team (default 11):</label>
-                <input type="number" id="players" min="1" max="11" value="11">
+                <label id="players-label">Number of players in losing team (default 8):</label>
+                <input type="number" id="players" min="1" max="8" value="8">
             </div>
             
             <div id="all-out-section" class="input-group hidden">
@@ -827,4 +821,5 @@ ${matchData.winner_got_all_out ? '⚡ SPECIAL CASE: All out with <8 players - ma
         });
     </script>
 </body>
+
 </html>
