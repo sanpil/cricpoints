@@ -260,12 +260,12 @@
             
             <div class="input-group">
                 <label for="team1-name">Team 1 name:</label>
-                <input type="text" id="team1-name" value="Team 1">
+                <input type="text" id="team1-name" value="Team1">
             </div>
             
             <div class="input-group">
                 <label for="team2-name">Team 2 name:</label>
-                <input type="text" id="team2-name" value="Team 2">
+                <input type="text" id="team2-name" value="Team2">
             </div>
             
             <button class="button" onclick="proceedToMatchResult()">Next ➡️</button>
@@ -277,11 +277,11 @@
             <div class="radio-group">
                 <div class="radio-option">
                     <input type="radio" id="team1-wins" name="match-result" value="team1">
-                    <label for="team1-wins" id="team1-wins-label">Team 1 won</label>
+                    <label for="team1-wins" id="team1-wins-label">Team1 won</label>
                 </div>
                 <div class="radio-option">
                     <input type="radio" id="team2-wins" name="match-result" value="team2">
-                    <label for="team2-wins" id="team2-wins-label">Team 2 won</label>
+                    <label for="team2-wins" id="team2-wins-label">Team2 won</label>
                 </div>
                 <div class="radio-option">
                     <input type="radio" id="tie" name="match-result" value="tie">
@@ -450,8 +450,8 @@
         }
 
         function proceedToMatchResult() {
-            const team1Name = document.getElementById('team1-name').value.trim() || 'Team 1';
-            const team2Name = document.getElementById('team2-name').value.trim() || 'Team 2';
+            const team1Name = document.getElementById('team1-name').value.trim() || 'Team1';
+            const team2Name = document.getElementById('team2-name').value.trim() || 'Team2';
             
             matchData.team1_name = team1Name;
             matchData.team2_name = team2Name;
@@ -823,3 +823,4 @@ ${matchData.winner_got_all_out ? '⚡ SPECIAL CASE: All out with <8 players - ma
 </body>
 
 </html>
+
