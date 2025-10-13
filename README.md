@@ -1,3 +1,5 @@
+You can use the app at https://sanpil.github.io/cricpoints/.
+
 This is how ARCL (https://arcl.org/) calculates points for each game.
 
 There will be 30 points awarded per game. Losing team can get a maximum of 10 bonus points.  If team plays with less than 8 people and the other team get them all out and lose, they will get maximum points for bowling regardless of wickets they took since ALL OUT will be considered a special case. Winning team gets 20 points plus the leftover bonus points from losing team. For example if the losing teams gets 4 points, the winning team will get 20 + (10-4) = 26 points. In case of a Tie both teams will get 15 points and no bonus points. 
