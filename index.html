@@ -393,15 +393,15 @@
             <div class="input-panel">
                 <!-- Team Information -->
                 <div class="section">
-                    <h3>Team Information</h3>
+                    <h3>Teams</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="team1">Team 1 Name:</label>
-                            <input type="text" id="team1" placeholder="Enter team 1 name">
+                            <label for="team1">Team 1:</label>
+                            <input type="text" id="team1" placeholder="Enter first team name">
                         </div>
                         <div class="form-group">
-                            <label for="team2">Team 2 Name:</label>
-                            <input type="text" id="team2" placeholder="Enter team 2 name">
+                            <label for="team2">Team 2:</label>
+                            <input type="text" id="team2" placeholder="Enter second team name">
                         </div>
                     </div>
                 </div>
@@ -414,15 +414,15 @@
                         <div class="radio-group">
                             <div class="radio-option">
                                 <input type="radio" id="team1-wins" name="winner" value="team1">
-                                <label for="team1-wins" id="team1-label">Team 1 Wins</label>
+                                <label for="team1-wins" id="team1-label">Team 1 won</label>
                             </div>
                             <div class="radio-option">
                                 <input type="radio" id="team2-wins" name="winner" value="team2">
-                                <label for="team2-wins" id="team2-label">Team 2 Wins</label>
+                                <label for="team2-wins" id="team2-label">Team 2 won</label>
                             </div>
                             <div class="radio-option">
                                 <input type="radio" id="tie" name="winner" value="tie">
-                                <label for="tie">Tie</label>
+                                <label for="tie">Tied</label>
                             </div>
                         </div>
                     </div>
@@ -433,21 +433,21 @@
                     <h3>Match Details</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="team1-runs" id="team1-runs-label">Team 1 Total Runs:</label>
+                            <label for="team1-runs" id="team1-runs-label">Team 1 Runs:</label>
                             <input type="number" id="team1-runs" min="0" placeholder="e.g., 150">
                         </div>
                         <div class="form-group">
-                            <label for="team1-overs" id="team1-overs-label">Team 1 Overs Faced:</label>
+                            <label for="team1-overs" id="team1-overs-label">Team 1 Overs:</label>
                             <input type="number" id="team1-overs" min="0" max="16" step="0.1" placeholder="e.g., 15.4">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="team2-runs" id="team2-runs-label">Team 2 Total Runs:</label>
+                            <label for="team2-runs" id="team2-runs-label">Team 2 Runs:</label>
                             <input type="number" id="team2-runs" min="0" placeholder="e.g., 140">
                         </div>
                         <div class="form-group">
-                            <label for="team2-overs" id="team2-overs-label">Team 2 Overs Faced:</label>
+                            <label for="team2-overs" id="team2-overs-label">Team 2 Overs:</label>
                             <input type="number" id="team2-overs" min="0" max="16" step="0.1" placeholder="e.g., 16.0">
                         </div>
                     </div>
@@ -461,7 +461,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="wickets" id="wickets-label">Wickets taken by Losing Team:</label>
+                            <label for="wickets" id="wickets-label">Wickets taken by the losing team:</label>
                             <input type="number" id="wickets" min="0" max="10" placeholder="e.g., 5">
                         </div>
                     </div>
@@ -472,7 +472,7 @@
                     <h3>Special Case Check</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="players" id="players-label">Players in Losing Team:</label>
+                            <label for="players" id="players-label">Players in the losing Team:</label>
                             <input type="number" id="players" min="1" max="8" value="8" placeholder="Default: 8">
                         </div>
                         <div class="form-group" id="all-out-group" style="display: none;">
@@ -509,7 +509,7 @@
             <div class="results-panel">
                 <div class="placeholder-message" id="placeholder">
                     <h3>📊 Results will appear here</h3>
-                    <p>Fill in the match details on the left to see the points calculation</p>
+                    <p>Fill in the match details to see the points calculation</p>
                 </div>
 
                 <div class="results" id="results">
@@ -983,4 +983,5 @@
     </script>
 </body>
 </html>
+
 
