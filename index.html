@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏏 16-Over Cricket Match Points Calculator</title>
+    <title>ARCL Cricket Match Points Calculator</title>
     <style>
         * {
             margin: 0;
@@ -12,415 +12,656 @@
         }
 
         body {
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #fff;
+            color: #333;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid #444;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
         .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #444;
         }
 
         .header h1 {
-            color: #4CAF50;
-            font-size: 1.8em;
+            font-size: 2.5em;
             margin-bottom: 10px;
         }
 
         .header p {
-            color: #ccc;
+            font-size: 1.1em;
+            opacity: 0.9;
             margin: 5px 0;
         }
 
-        .step-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid #4CAF50;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
         }
 
-        .step-title {
-            color: #4CAF50;
-            font-weight: bold;
+        .input-panel {
+            background: #f8f9fa;
+            padding: 30px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .results-panel {
+            background: #fff;
+            padding: 30px;
+            position: relative;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #333;
             margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h3::before {
+            content: "📋";
+            margin-right: 10px;
             font-size: 1.1em;
         }
 
-        .input-group {
-            margin: 15px 0;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
-        .input-group label {
-            color: #fff;
-            display: block;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 600;
+            color: #555;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-size: 0.9em;
         }
 
-        .input-group input, .input-group select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid #555;
-            border-radius: 5px;
+        input, select {
             padding: 10px;
-            color: #fff;
-            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 6px;
             font-size: 1em;
+            transition: all 0.3s;
         }
 
-        .input-group input:focus, .input-group select:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #4CAF50;
-            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
 
         .radio-group {
             display: flex;
-            gap: 20px;
-            margin: 10px 0;
+            gap: 15px;
+            margin-top: 8px;
+            flex-wrap: wrap;
         }
 
         .radio-option {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #fff;
+            gap: 6px;
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .radio-option:hover {
+            border-color: #4CAF50;
+            background: #f0f8f0;
         }
 
         .radio-option input[type="radio"] {
+            margin: 0;
             width: auto;
         }
 
-        .button {
-            background: #4CAF50;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
+        .radio-option input[type="radio"]:checked + label,
+        .radio-option:has(input[type="radio"]:checked) {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+        }
+
+        .radio-option label {
+            margin: 0;
             cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            margin: 10px 5px;
-            transition: background 0.3s;
+            font-weight: normal;
         }
 
-        .button:hover {
-            background: #45a049;
+        .calculate-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
         }
 
-        .button:disabled {
-            background: #666;
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .calculate-btn:disabled {
+            background: #ccc;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .results {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid #444;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
             padding: 25px;
-            margin-top: 30px;
-            display: none;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
         }
 
-        .results-header {
+        .results.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .results h2 {
             text-align: center;
-            color: #4CAF50;
-            font-size: 1.5em;
+            font-size: 1.8em;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #444;
         }
 
         .match-summary {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .team-result {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
+        .team-card {
+            background: rgba(255,255,255,0.15);
             border-radius: 8px;
+            padding: 15px;
             text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .team-result.winner {
-            border-left: 4px solid #4CAF50;
+        .team-card.winner {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: rgba(76, 175, 80, 0.5);
         }
 
-        .team-result.loser {
-            border-left: 4px solid #FF9800;
+        .team-card.loser {
+            background: rgba(255, 193, 7, 0.3);
+            border-color: rgba(255, 193, 7, 0.5);
         }
 
-        .team-result.tie {
-            border-left: 4px solid #2196F3;
+        .team-card.tie {
+            background: rgba(33, 150, 243, 0.3);
+            border-color: rgba(33, 150, 243, 0.5);
         }
 
-        .points-display {
+        .team-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .points {
             font-size: 2.5em;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 8px 0;
         }
 
         .breakdown {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
+            background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            margin-top: 20px;
+            padding: 15px;
+            margin-top: 15px;
         }
 
         .breakdown h3 {
-            color: #4CAF50;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            font-size: 1.2em;
         }
 
-        .breakdown-line {
+        .breakdown-item {
             display: flex;
             justify-content: space-between;
-            margin: 8px 0;
-            padding: 5px 0;
+            margin-bottom: 6px;
+            padding: 3px 0;
+            font-size: 0.95em;
         }
 
-        .breakdown-line.total {
-            border-top: 1px solid #444;
-            margin-top: 15px;
-            padding-top: 15px;
+        .breakdown-item.total {
+            border-top: 1px solid rgba(255,255,255,0.3);
+            margin-top: 8px;
+            padding-top: 8px;
             font-weight: bold;
         }
 
         .error {
             background: #f44336;
             color: white;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .special-case-alert {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #FFC107;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            color: #bf8c00;
+            font-weight: bold;
             display: none;
         }
 
-        .special-case {
-            background: rgba(255, 193, 7, 0.2);
-            border-left: 4px solid #FFC107;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
+        .placeholder-message {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            margin-top: 50px;
         }
 
-        @media (max-width: 768px) {
-            .match-summary {
+        .quick-reset {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .quick-reset:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-panel {
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            
+            .form-row {
                 grid-template-columns: 1fr;
             }
             
             .radio-group {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
+            }
+            
+            .match-summary {
+                grid-template-columns: 1fr;
             }
         }
 
-        .hidden {
-            display: none;
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .input-panel, .results-panel {
+                padding: 20px;
+            }
         }
 
-        .console-output {
-            background: #000;
-            color: #0f0;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: monospace;
-            margin: 10px 0;
-            white-space: pre-wrap;
-            border: 1px solid #333;
+        .auto-calculate {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid #4CAF50;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #2e7d32;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏏 16-Over Cricket Match Points Calculator</h1>
-            <p>Santhosh Pillai</p>
+            <h1>ARCL Cricket Match Points Calculator</h1>
+	    <p>by Santhosh Pillai</p>
         </div>
 
-        <div id="step1" class="step-section">
-            <div class="step-title">📝 Enter Match Details:</div>
-            
-            <div class="input-group">
-                <label for="team1-name">Team 1 name:</label>
-                <input type="text" id="team1-name" value="Team1">
-            </div>
-            
-            <div class="input-group">
-                <label for="team2-name">Team 2 name:</label>
-                <input type="text" id="team2-name" value="Team2">
-            </div>
-            
-            <button class="button" onclick="proceedToMatchResult()">Next ➡️</button>
-        </div>
-
-        <div id="step2" class="step-section hidden">
-            <div class="step-title">Match Result Options:</div>
-            
-            <div class="radio-group">
-                <div class="radio-option">
-                    <input type="radio" id="team1-wins" name="match-result" value="team1">
-                    <label for="team1-wins" id="team1-wins-label">Team1 won</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="team2-wins" name="match-result" value="team2">
-                    <label for="team2-wins" id="team2-wins-label">Team2 won</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="tie" name="match-result" value="tie">
-                    <label for="tie">Tie</label>
-                </div>
-            </div>
-            
-            <button class="button" onclick="goBack('step1')">⬅️ Back</button>
-            <button class="button" onclick="proceedToScores()">Next ➡️</button>
-        </div>
-
-        <div id="step3" class="step-section hidden">
-            <div class="step-title" id="winner-announcement">📊 Team won! Enter detailed scores:</div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="input-group">
-                    <label id="winner-runs-label">Winner total runs:</label>
-                    <input type="number" id="winner-runs" min="0" required>
-                </div>
-                <div class="input-group">
-                    <label id="winner-overs-label">Winner overs faced:</label>
-                    <input type="number" id="winner-overs" min="0" max="16" step="0.1" 
-                           placeholder="e.g., 15.4" required>
-                </div>
-                <div class="input-group">
-                    <label id="loser-runs-label">Loser total runs:</label>
-                    <input type="number" id="loser-runs" min="0" required>
-                </div>
-                <div class="input-group">
-                    <label id="loser-overs-label">Loser overs faced:</label>
-                    <input type="number" id="loser-overs" min="0" max="16" step="0.1" 
-                           placeholder="e.g., 12.1" required>
-                </div>
-            </div>
-            
-            <div class="input-group">
-                <label id="wickets-label">Wickets taken by loser:</label>
-                <input type="number" id="wickets" min="0" max="10" required>
-            </div>
-            
-            <button class="button" onclick="goBack('step2')">⬅️ Back</button>
-            <button class="button" onclick="proceedToBattingOrder()">Next ➡️</button>
-        </div>
-
-        <div id="step4" class="step-section hidden">
-            <div class="step-title">Batting Order:</div>
-            
-            <div class="radio-group">
-                <div class="radio-option">
-                    <input type="radio" id="team1-batted-first" name="batting-order" value="team1">
-                    <label for="team1-batted-first" id="team1-batted-first-label">Team 1 batted first</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="team2-batted-first" name="batting-order" value="team2">
-                    <label for="team2-batted-first" id="team2-batted-first-label">Team 2 batted first</label>
-                </div>
-            </div>
-            
-            <button class="button" onclick="goBack('step3')">⬅️ Back</button>
-            <button class="button" onclick="proceedToSpecialCase()">Next ➡️</button>
-        </div>
-
-        <div id="step5" class="step-section hidden">
-            <div class="step-title">Special Case Check:</div>
-            
-            <div class="input-group">
-                <label id="players-label">Number of players in losing team (default 8):</label>
-                <input type="number" id="players" min="1" max="8" value="8">
-            </div>
-            
-            <div id="all-out-section" class="input-group hidden">
-                <label id="all-out-question">Did winner get loser all out? (y/n):</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="all-out-yes" name="all-out" value="yes">
-                        <label for="all-out-yes">Yes</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="all-out-no" name="all-out" value="no">
-                        <label for="all-out-no">No</label>
+        <div class="main-content">
+            <!-- Input Panel -->
+            <div class="input-panel">
+                <!-- Team Information -->
+                <div class="section">
+                    <h3>Team Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="team1">Team 1 Name:</label>
+                            <input type="text" id="team1" placeholder="Enter team 1 name">
+                        </div>
+                        <div class="form-group">
+                            <label for="team2">Team 2 Name:</label>
+                            <input type="text" id="team2" placeholder="Enter team 2 name">
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div id="special-case-message" class="special-case hidden">
-                ⚡ Special case: Winner gets maximum bowling points!
-            </div>
-            
-            <button class="button" onclick="goBack('step4')">⬅️ Back</button>
-            <button class="button" onclick="calculatePoints()">🏆 Calculate Points</button>
-        </div>
 
-        <div class="error" id="error-message"></div>
+                <!-- Match Result -->
+                <div class="section">
+                    <h3>Match Result</h3>
+                    <div class="form-group">
+                        <label>Who won the match?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="team1-wins" name="winner" value="team1">
+                                <label for="team1-wins" id="team1-label">Team 1 Wins</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="team2-wins" name="winner" value="team2">
+                                <label for="team2-wins" id="team2-label">Team 2 Wins</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="tie" name="winner" value="tie">
+                                <label for="tie">Tie</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="results" id="results">
-            <div class="results-header">🏆 MATCH RESULTS & POINTS BREAKDOWN</div>
-            <div id="results-content"></div>
-            <button class="button" onclick="resetCalculator()">🔄 Calculate Another Match</button>
+                <!-- Match Details (hidden for tie) -->
+                <div class="section" id="match-details">
+                    <h3>Match Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="team1-runs" id="team1-runs-label">Team 1 Total Runs:</label>
+                            <input type="number" id="team1-runs" min="0" placeholder="e.g., 150">
+                        </div>
+                        <div class="form-group">
+                            <label for="team1-overs" id="team1-overs-label">Team 1 Overs Faced:</label>
+                            <input type="number" id="team1-overs" min="0" max="16" step="0.1" placeholder="e.g., 15.4">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="team2-runs" id="team2-runs-label">Team 2 Total Runs:</label>
+                            <input type="number" id="team2-runs" min="0" placeholder="e.g., 140">
+                        </div>
+                        <div class="form-group">
+                            <label for="team2-overs" id="team2-overs-label">Team 2 Overs Faced:</label>
+                            <input type="number" id="team2-overs" min="0" max="16" step="0.1" placeholder="e.g., 16.0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="batting-first">Who Batted First:</label>
+                            <select id="batting-first">
+                                <option value="">Select team...</option>
+                                <option value="team1">Team 1</option>
+                                <option value="team2">Team 2</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="wickets" id="wickets-label">Wickets taken by Losing Team:</label>
+                            <input type="number" id="wickets" min="0" max="10" placeholder="e.g., 5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Case -->
+                <div class="section" id="special-case-section">
+                    <h3>Special Case Check</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="players" id="players-label">Players in Losing Team:</label>
+                            <input type="number" id="players" min="1" max="8" value="8" placeholder="Default: 8">
+                        </div>
+                        <div class="form-group" id="all-out-group" style="display: none;">
+                            <label>All Out (Special Case):</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="all-out-yes" name="allOut" value="yes">
+                                    <label for="all-out-yes">Yes</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="all-out-no" name="allOut" value="no">
+                                    <label for="all-out-no">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="special-case-alert" id="special-case-alert">
+                        ⚡ Special case: Winner gets maximum bowling points!
+                    </div>
+                </div>
+
+                <div class="auto-calculate">
+                    💡 <strong>Auto-calculation:</strong> Results update automatically as you fill in the details
+                </div>
+
+                <div class="error" id="error-message"></div>
+
+                <button type="button" class="calculate-btn" onclick="calculatePoints()">
+                    🏆 Calculate Points
+                </button>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-panel">
+                <div class="placeholder-message" id="placeholder">
+                    <h3>📊 Results will appear here</h3>
+                    <p>Fill in the match details on the left to see the points calculation</p>
+                </div>
+
+                <div class="results" id="results">
+                    <h2 id="results-title">🏆 Match Results & Points Breakdown</h2>
+                    <div id="results-content"></div>
+                    <button type="button" class="quick-reset" onclick="resetCalculator()">
+                        🔄 Reset Calculator
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Constants from Python class
+        // Constants
         const TOTAL_POINTS = 30;
         const BASE_WINNING_POINTS = 20;
         const MAX_BONUS_POINTS = 10;
         const TIE_POINTS = 15;
         const MAX_BOWLING_POINTS = 5;
 
-        // Global variables to store match data
-        let matchData = {};
-        let currentStep = 1;
+        // Global variables
+        let autoCalculate = true;
 
         // Initialize the calculator
         function initializeCalculator() {
-            document.getElementById('players').addEventListener('input', function() {
-                const players = parseInt(this.value);
-                const allOutSection = document.getElementById('all-out-section');
-                if (players < 8) {
-                    allOutSection.classList.remove('hidden');
-                } else {
-                    allOutSection.classList.add('hidden');
-                    document.querySelectorAll('input[name="all-out"]').forEach(radio => {
-                        radio.checked = false;
-                    });
-                    document.getElementById('special-case-message').classList.add('hidden');
-                }
+            // Update team names dynamically
+            document.getElementById('team1').addEventListener('input', updateTeamNames);
+            document.getElementById('team2').addEventListener('input', updateTeamNames);
+
+            // Handle match result changes
+            document.querySelectorAll('input[name="winner"]').forEach(radio => {
+                radio.addEventListener('change', handleMatchResultChange);
             });
 
-            document.querySelectorAll('input[name="all-out"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const specialMessage = document.getElementById('special-case-message');
-                    if (this.value === 'yes') {
-                        specialMessage.classList.remove('hidden');
-                    } else {
-                        specialMessage.classList.add('hidden');
-                    }
-                });
+            // Handle special case
+            document.getElementById('players').addEventListener('input', handlePlayersChange);
+            document.querySelectorAll('input[name="allOut"]').forEach(radio => {
+                radio.addEventListener('change', handleAllOutChange);
             });
+
+            // Auto-calculate on input changes
+            const autoInputs = ['team1-runs', 'team1-overs', 'team2-runs', 'team2-overs', 'wickets', 'batting-first'];
+            autoInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', debounceCalculate);
+            });
+
+            // Initial team name update
+            updateTeamNames();
+        }
+
+        function updateTeamNames() {
+            const team1Name = document.getElementById('team1').value || 'Team 1';
+            const team2Name = document.getElementById('team2').value || 'Team 2';
+            
+            // Update radio button labels
+            document.getElementById('team1-label').textContent = `${team1Name} Wins`;
+            document.getElementById('team2-label').textContent = `${team2Name} Wins`;
+            
+            // Update batting order dropdown
+            const battingFirst = document.getElementById('batting-first');
+            const currentValue = battingFirst.value;
+            battingFirst.innerHTML = `
+                <option value="">Select team...</option>
+                <option value="team1">${team1Name}</option>
+                <option value="team2">${team2Name}</option>
+            `;
+            battingFirst.value = currentValue;
+
+            // Update other labels
+            document.getElementById('team1-runs-label').textContent = `${team1Name} Total Runs:`;
+            document.getElementById('team1-overs-label').textContent = `${team1Name} Overs Faced:`;
+            document.getElementById('team2-runs-label').textContent = `${team2Name} Total Runs:`;
+            document.getElementById('team2-overs-label').textContent = `${team2Name} Overs Faced:`;
+
+            if (autoCalculate) {
+                debounceCalculate();
+            }
+        }
+
+        function handleMatchResultChange() {
+            const selectedResult = document.querySelector('input[name="winner"]:checked')?.value;
+            const matchDetails = document.getElementById('match-details');
+            const specialCase = document.getElementById('special-case-section');
+            
+            if (selectedResult === 'tie') {
+                matchDetails.style.display = 'none';
+                specialCase.style.display = 'none';
+                if (autoCalculate) {
+                    calculatePoints();
+                }
+            } else {
+                matchDetails.style.display = 'block';
+                specialCase.style.display = 'block';
+                updateLosingTeamLabels();
+                if (autoCalculate) {
+                    debounceCalculate();
+                }
+            }
+        }
+
+        function updateLosingTeamLabels() {
+            const selectedResult = document.querySelector('input[name="winner"]:checked')?.value;
+            if (!selectedResult || selectedResult === 'tie') return;
+
+            const team1Name = document.getElementById('team1').value || 'Team 1';
+            const team2Name = document.getElementById('team2').value || 'Team 2';
+            const loserName = selectedResult === 'team1' ? team2Name : team1Name;
+
+            document.getElementById('wickets-label').textContent = `Wickets by ${loserName}:`;
+            document.getElementById('players-label').textContent = `Players in ${loserName}:`;
+        }
+
+        function handlePlayersChange() {
+            const players = parseInt(document.getElementById('players').value) || 11;
+            const allOutGroup = document.getElementById('all-out-group');
+            
+            if (players < 8) {
+                allOutGroup.style.display = 'block';
+            } else {
+                allOutGroup.style.display = 'none';
+                document.querySelectorAll('input[name="allOut"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                document.getElementById('special-case-alert').style.display = 'none';
+            }
+            
+            if (autoCalculate) {
+                debounceCalculate();
+            }
+        }
+
+        function handleAllOutChange() {
+            const allOut = document.querySelector('input[name="allOut"]:checked')?.value;
+            const alert = document.getElementById('special-case-alert');
+            
+            if (allOut === 'yes') {
+                alert.style.display = 'block';
+            } else {
+                alert.style.display = 'none';
+            }
+            
+            if (autoCalculate) {
+                debounceCalculate();
+            }
+        }
+
+        // Debounce function for auto-calculation
+        let calculateTimeout;
+        function debounceCalculate() {
+            clearTimeout(calculateTimeout);
+            calculateTimeout = setTimeout(calculatePoints, 500);
         }
 
         function showError(message) {
@@ -429,140 +670,16 @@
             errorDiv.style.display = 'block';
             setTimeout(() => {
                 errorDiv.style.display = 'none';
-            }, 5000);
+            }, 4000);
         }
 
-        function hideAllSteps() {
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`step${i}`).classList.add('hidden');
-            }
-        }
-
-        function showStep(stepNumber) {
-            hideAllSteps();
-            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
-            currentStep = stepNumber;
-        }
-
-        function goBack(targetStep) {
-            const stepNumber = parseInt(targetStep.replace('step', ''));
-            showStep(stepNumber);
-        }
-
-        function proceedToMatchResult() {
-            const team1Name = document.getElementById('team1-name').value.trim() || 'Team1';
-            const team2Name = document.getElementById('team2-name').value.trim() || 'Team2';
-            
-            matchData.team1_name = team1Name;
-            matchData.team2_name = team2Name;
-            
-            // Update labels
-            document.getElementById('team1-wins-label').textContent = `${team1Name} won`;
-            document.getElementById('team2-wins-label').textContent = `${team2Name} won`;
-            document.getElementById('team1-batted-first-label').textContent = `${team1Name} batted first`;
-            document.getElementById('team2-batted-first-label').textContent = `${team2Name} batted first`;
-            
-            showStep(2);
-        }
-
-        function proceedToScores() {
-            const selectedResult = document.querySelector('input[name="match-result"]:checked');
-            if (!selectedResult) {
-                showError('Please select match result');
-                return;
-            }
-
-            // Handle tie case
-            if (selectedResult.value === 'tie') {
-                matchData.is_tie = true;
-                calculatePoints();
-                return;
-            }
-
-            matchData.is_tie = false;
-            
-            // Determine winner and loser
-            if (selectedResult.value === 'team1') {
-                matchData.winner_name = matchData.team1_name;
-                matchData.loser_name = matchData.team2_name;
-            } else {
-                matchData.winner_name = matchData.team2_name;
-                matchData.loser_name = matchData.team1_name;
-            }
-
-            // Update labels for step 3
-            document.getElementById('winner-announcement').textContent = `📊 ${matchData.winner_name} won! Enter detailed scores:`;
-            document.getElementById('winner-runs-label').textContent = `${matchData.winner_name} total runs:`;
-            document.getElementById('winner-overs-label').textContent = `${matchData.winner_name} overs faced:`;
-            document.getElementById('loser-runs-label').textContent = `${matchData.loser_name} total runs:`;
-            document.getElementById('loser-overs-label').textContent = `${matchData.loser_name} overs faced:`;
-            document.getElementById('wickets-label').textContent = `Wickets taken by ${matchData.loser_name}:`;
-
-            showStep(3);
-        }
-
-        function proceedToBattingOrder() {
-            // Validate inputs
-            const winnerRuns = document.getElementById('winner-runs').value;
-            const winnerOvers = document.getElementById('winner-overs').value;
-            const loserRuns = document.getElementById('loser-runs').value;
-            const loserOvers = document.getElementById('loser-overs').value;
-            const wickets = document.getElementById('wickets').value;
-
-            if (!winnerRuns || !winnerOvers || !loserRuns || !loserOvers || wickets === '') {
-                showError('Please fill in all required fields');
-                return;
-            }
-
-            // Validate overs format (similar to Python logic)
-            const winnerOversValue = parseFloat(winnerOvers);
-            const loserOversValue = parseFloat(loserOvers);
-            
-            if (winnerOversValue < 0 || winnerOversValue > 16 || loserOversValue < 0 || loserOversValue > 16) {
-                showError('Overs should be between 0 and 16');
-                return;
-            }
-
-            const wicketsValue = parseInt(wickets);
-            if (wicketsValue < 0 || wicketsValue > 10) {
-                showError('Wickets should be between 0 and 10');
-                return;
-            }
-
-            matchData.winner_runs = parseInt(winnerRuns);
-            matchData.winner_overs = winnerOversValue;
-            matchData.loser_runs = parseInt(loserRuns);
-            matchData.loser_overs = loserOversValue;
-            matchData.loser_wickets = wicketsValue;
-
-            showStep(4);
-        }
-
-        function proceedToSpecialCase() {
-            const selectedBattingOrder = document.querySelector('input[name="batting-order"]:checked');
-            if (!selectedBattingOrder) {
-                showError('Please select who batted first');
-                return;
-            }
-
-            const firstBatting = selectedBattingOrder.value === 'team1' ? matchData.team1_name : matchData.team2_name;
-            matchData.loser_batted_first = (matchData.loser_name === firstBatting);
-
-            // Update labels for step 5
-            document.getElementById('players-label').textContent = `Number of players in ${matchData.loser_name} (default 11):`;
-            document.getElementById('all-out-question').textContent = `Did ${matchData.winner_name} get ${matchData.loser_name} all out? (y/n):`;
-
-            showStep(5);
-        }
-
-        // Core calculation functions (translated from Python)
+        // Core calculation functions
         function calculateRunRate(runs, overs) {
             return overs === 0 ? 0.0 : runs / overs;
         }
 
         function calculateBattingPoints(matchData) {
             if (matchData.loser_batted_first) {
-                // Batting first: based on run rate comparison
                 const winnerRunRate = calculateRunRate(matchData.winner_runs, matchData.winner_overs);
                 const loserRunRate = calculateRunRate(matchData.loser_runs, matchData.loser_overs);
                 
@@ -577,7 +694,6 @@
                 if (percentage > 50) return 1;
                 return 0;
             } else {
-                // Batting second: based on percentage of winner's score
                 const percentage = (matchData.loser_runs / matchData.winner_runs) * 100;
                 
                 if (percentage > 90) return 5;
@@ -602,35 +718,97 @@
 
         function calculatePoints() {
             try {
-                // Handle tie case
-                if (matchData.is_tie) {
-                    displayTieResults();
+                // Get basic data
+                const team1Name = document.getElementById('team1').value || 'Team 1';
+                const team2Name = document.getElementById('team2').value || 'Team 2';
+                const winner = document.querySelector('input[name="winner"]:checked')?.value;
+
+                if (!winner) {
+                    showPlaceholder();
                     return;
                 }
 
-                // Get special case data
-                const players = parseInt(document.getElementById('players').value) || 11;
-                const allOut = document.querySelector('input[name="all-out"]:checked')?.value === 'yes';
-                
-                matchData.winner_got_all_out = players < 8 && allOut;
+                // Handle tie case
+                if (winner === 'tie') {
+                    displayTieResults(team1Name, team2Name);
+                    return;
+                }
 
-                // Calculate bonus points for losing team
+                // Get match details
+                const team1Runs = parseInt(document.getElementById('team1-runs').value);
+                const team1Overs = parseFloat(document.getElementById('team1-overs').value);
+                const team2Runs = parseInt(document.getElementById('team2-runs').value);
+                const team2Overs = parseFloat(document.getElementById('team2-overs').value);
+                const battingFirst = document.getElementById('batting-first').value;
+                const wickets = parseInt(document.getElementById('wickets').value);
+                const players = parseInt(document.getElementById('players').value) || 11;
+                const allOut = document.querySelector('input[name="allOut"]:checked')?.value === 'yes';
+
+                // Validate required inputs
+                if (isNaN(team1Runs) || isNaN(team1Overs) || isNaN(team2Runs) || isNaN(team2Overs) || !battingFirst || isNaN(wickets)) {
+                    showPlaceholder();
+                    return;
+                }
+
+                // Validate ranges
+                if (team1Overs < 0 || team1Overs > 16 || team2Overs < 0 || team2Overs > 16) {
+                    showError('Overs should be between 0 and 16');
+                    return;
+                }
+
+                if (wickets < 0 || wickets > 10) {
+                    showError('Wickets should be between 0 and 10');
+                    return;
+                }
+
+                // Determine winner and loser data
+                let winnerName, loserName, winnerRuns, winnerOvers, loserRuns, loserOvers;
+                
+                if (winner === 'team1') {
+                    winnerName = team1Name;
+                    loserName = team2Name;
+                    winnerRuns = team1Runs;
+                    winnerOvers = team1Overs;
+                    loserRuns = team2Runs;
+                    loserOvers = team2Overs;
+                } else {
+                    winnerName = team2Name;
+                    loserName = team1Name;
+                    winnerRuns = team2Runs;
+                    winnerOvers = team2Overs;
+                    loserRuns = team1Runs;
+                    loserOvers = team1Overs;
+                }
+
+                const loserBattedFirst = (battingFirst === 'team1' && winner === 'team2') || 
+                                       (battingFirst === 'team2' && winner === 'team1');
+
+                const specialCase = players < 8 && allOut;
+
+                const matchData = {
+                    winner_name: winnerName,
+                    loser_name: loserName,
+                    winner_runs: winnerRuns,
+                    winner_overs: winnerOvers,
+                    loser_runs: loserRuns,
+                    loser_overs: loserOvers,
+                    loser_wickets: wickets,
+                    loser_batted_first: loserBattedFirst,
+                    winner_got_all_out: specialCase
+                };
+
+                // Calculate points
                 const battingPoints = calculateBattingPoints(matchData);
-                const bowlingPoints = calculateBowlingPoints(matchData.loser_wickets, matchData.winner_got_all_out);
-                
-                // Total bonus points for loser (max 10)
+                const bowlingPoints = calculateBowlingPoints(wickets, specialCase);
                 const loserBonus = Math.min(battingPoints + bowlingPoints, MAX_BONUS_POINTS);
-                
-                // Points distribution
-                const loserTotalPoints = loserBonus;
-                const winnerTotalPoints = BASE_WINNING_POINTS + (MAX_BONUS_POINTS - loserBonus);
-                
-                // Create results object
+                const loserPoints = loserBonus;
+                const winnerPoints = BASE_WINNING_POINTS + (MAX_BONUS_POINTS - loserBonus);
+
                 const results = {
-                    winner_name: matchData.winner_name,
-                    loser_name: matchData.loser_name,
-                    winner_points: winnerTotalPoints,
-                    loser_points: loserTotalPoints,
+                    winner_name: winnerName,
+                    loser_name: loserName,
+                    winner_points: winnerPoints,
+                    loser_points: loserPoints,
                     batting_points: battingPoints,
                     bowling_points: bowlingPoints,
                     loser_bonus: loserBonus,
@@ -646,32 +824,39 @@
             }
         }
 
-        function displayTieResults() {
+        function showPlaceholder() {
+            document.getElementById('placeholder').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+        }
+
+        function displayTieResults(team1Name, team2Name) {
             const resultsContent = document.getElementById('results-content');
             
             resultsContent.innerHTML = `
-                <div class="console-output">🤝 TIE MATCH!
-📊 ${matchData.team1_name}: ${TIE_POINTS} points
-📊 ${matchData.team2_name}: ${TIE_POINTS} points
-
-💡 Tie rule: Both teams get 15 points, no bonus points</div>
-                
                 <div class="match-summary">
-                    <div class="team-result tie">
-                        <h3>🤝 ${matchData.team1_name}</h3>
-                        <div class="points-display">${TIE_POINTS}</div>
+                    <div class="team-card tie">
+                        <h3>🤝 ${team1Name}</h3>
+                        <div class="points">${TIE_POINTS}</div>
                         <p>TIE</p>
                     </div>
-                    <div class="team-result tie">
-                        <h3>🤝 ${matchData.team2_name}</h3>
-                        <div class="points-display">${TIE_POINTS}</div>
+                    <div class="team-card tie">
+                        <h3>🤝 ${team2Name}</h3>
+                        <div class="points">${TIE_POINTS}</div>
                         <p>TIE</p>
+                    </div>
+                </div>
+                <div class="breakdown">
+                    <h3>💡 Tie Rule Explanation</h3>
+                    <p>In case of a tie, both teams receive 15 points each with no bonus points awarded.</p>
+                    <div class="breakdown-item total">
+                        <span>Total Points Distributed:</span>
+                        <span>30/30 ✓</span>
                     </div>
                 </div>
             `;
 
-            document.getElementById('results').style.display = 'block';
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('results').classList.add('show');
         }
 
         function displayDetailedResults(results) {
@@ -686,53 +871,26 @@
             let calculationMethod;
             if (matchData.loser_batted_first) {
                 percentage = winnerRR > 0 ? (loserRR / winnerRR) * 100 : 0;
-                calculationMethod = `${results.loser_name} batted FIRST\nRun rate percentage: ${percentage.toFixed(1)}% of winner's run rate\nLoser RR: ${loserRR.toFixed(2)}, Winner RR: ${winnerRR.toFixed(2)}`;
+                calculationMethod = `Run Rate Comparison (${results.loser_name} batted first)`;
             } else {
                 percentage = (matchData.loser_runs / matchData.winner_runs) * 100;
-                calculationMethod = `${results.loser_name} batted SECOND\nScore percentage: ${percentage.toFixed(1)}% of winner's score\nLoser: ${matchData.loser_runs}, Winner: ${matchData.winner_runs}`;
+                calculationMethod = `Score Comparison (${results.loser_name} batted second)`;
             }
 
             const resultsContent = document.getElementById('results-content');
             
             resultsContent.innerHTML = `
-                <div class="console-output">🏆 WINNER: ${results.winner_name} (${results.winner_points} points)
-😔 LOSER: ${results.loser_name} (${results.loser_points} points)
-
-📊 MATCH SCORES:
-${matchData.winner_name}: ${matchData.winner_runs}/? (${matchData.winner_overs} overs, RR: ${winnerRR.toFixed(2)})
-${matchData.loser_name}: ${matchData.loser_runs}/? (${matchData.loser_overs} overs, RR: ${loserRR.toFixed(2)})
-
-🎯 POINTS BREAKDOWN:
-Base winning points: ${BASE_WINNING_POINTS}
-Maximum bonus points available: ${MAX_BONUS_POINTS}
-
-🏏 ${results.loser_name} Bonus Points:
-   Batting points: ${results.batting_points}
-   Bowling points: ${results.bowling_points}
-   Total bonus: ${results.loser_bonus} (max 10)
-
-🏆 Final Points:
-   ${results.winner_name}: ${BASE_WINNING_POINTS} + ${MAX_BONUS_POINTS - results.loser_bonus} = ${results.winner_points}
-   ${results.loser_name}: ${results.loser_points}
-   Total distributed: ${results.winner_points + results.loser_points}/30
-
-${matchData.winner_got_all_out ? '⚡ SPECIAL CASE: All out with <8 players - maximum bowling points awarded!\n' : ''}💡 BATTING POINTS CALCULATION (CORRECTED):
-   ${calculationMethod}
-
-🎳 BOWLING POINTS CALCULATION:
-   Wickets taken by ${results.loser_name}: ${matchData.loser_wickets}</div>
-                
                 <div class="match-summary">
-                    <div class="team-result winner">
+                    <div class="team-card winner">
                         <h3>🏆 ${results.winner_name}</h3>
-                        <div class="points-display">${results.winner_points}</div>
+                        <div class="points">${results.winner_points}</div>
                         <p>WINNER</p>
                         <p>${matchData.winner_runs} runs (${matchData.winner_overs} overs)</p>
                         <p>Run Rate: ${winnerRR.toFixed(2)}</p>
                     </div>
-                    <div class="team-result loser">
+                    <div class="team-card loser">
                         <h3>😔 ${results.loser_name}</h3>
-                        <div class="points-display">${results.loser_points}</div>
+                        <div class="points">${results.loser_points}</div>
                         <p>BONUS POINTS</p>
                         <p>${matchData.loser_runs} runs (${matchData.loser_overs} overs)</p>
                         <p>Run Rate: ${loserRR.toFixed(2)}</p>
@@ -740,87 +898,88 @@ ${matchData.winner_got_all_out ? '⚡ SPECIAL CASE: All out with <8 players - ma
                 </div>
 
                 <div class="breakdown">
-                    <h3>🎯 Detailed Breakdown</h3>
-                    <div class="breakdown-line">
+                    <h3>🎯 Points Breakdown</h3>
+                    <div class="breakdown-item">
                         <span>Base winning points:</span>
                         <span>${BASE_WINNING_POINTS}</span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span>Maximum bonus available:</span>
                         <span>${MAX_BONUS_POINTS}</span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span><strong>${results.loser_name} Bonus Points:</strong></span>
                         <span></span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span>• Batting points (${percentage.toFixed(1)}%):</span>
                         <span>${results.batting_points}</span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span>• Bowling points (${matchData.loser_wickets} wickets${matchData.winner_got_all_out ? ', special case' : ''}):</span>
                         <span>${results.bowling_points}</span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span>• Total bonus (max 10):</span>
                         <span>${results.loser_bonus}</span>
                     </div>
-                    <div class="breakdown-line total">
+                    <div class="breakdown-item total">
                         <span><strong>Final Points:</strong></span>
                         <span></span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span>${results.winner_name}: ${BASE_WINNING_POINTS} + (${MAX_BONUS_POINTS} - ${results.loser_bonus})</span>
                         <span>${results.winner_points}</span>
                     </div>
-                    <div class="breakdown-line">
+                    <div class="breakdown-item">
                         <span>${results.loser_name}:</span>
                         <span>${results.loser_points}</span>
                     </div>
-                    <div class="breakdown-line total">
+                    <div class="breakdown-item total">
                         <span>Total Distributed:</span>
                         <span>${results.winner_points + results.loser_points}/30 ✓</span>
+                    </div>
+                    
+                    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.9em;">
+                        <strong>💡 Calculation Method:</strong><br>
+                        ${calculationMethod}
+                        ${matchData.winner_got_all_out ? '<br><strong>⚡ Special Case:</strong> All out with less than 8 players - maximum bowling points awarded!' : ''}
                     </div>
                 </div>
             `;
 
-            document.getElementById('results').style.display = 'block';
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('results').classList.add('show');
         }
 
         function resetCalculator() {
-            // Reset all form fields
-            document.querySelectorAll('input').forEach(input => {
-                if (input.type === 'text' || input.type === 'number') {
-                    input.value = input.id === 'team1-name' ? 'Team 1' : 
-                                  input.id === 'team2-name' ? 'Team 2' : 
-                                  input.id === 'players' ? '11' : '';
-                } else if (input.type === 'radio') {
-                    input.checked = false;
-                }
+            // Reset all inputs
+            document.getElementById('team1').value = 'Team 1';
+            document.getElementById('team2').value = 'Team 2';
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.value = input.id === 'players' ? '11' : '';
             });
-
-            // Reset match data
-            matchData = {};
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('batting-first').value = '';
             
-            // Hide results and special case message
-            document.getElementById('results').style.display = 'none';
-            document.getElementById('all-out-section').classList.add('hidden');
-            document.getElementById('special-case-message').classList.add('hidden');
+            // Reset display states
+            document.getElementById('match-details').style.display = 'block';
+            document.getElementById('special-case-section').style.display = 'block';
+            document.getElementById('all-out-group').style.display = 'none';
+            document.getElementById('special-case-alert').style.display = 'none';
             
-            // Go back to first step
-            showStep(1);
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Update team names and show placeholder
+            updateTeamNames();
+            showPlaceholder();
         }
 
-        // Initialize the calculator when page loads
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initializeCalculator();
+            showPlaceholder();
         });
     </script>
 </body>
-
 </html>
-
