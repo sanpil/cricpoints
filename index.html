@@ -675,7 +675,9 @@
 
         // Core calculation functions
         function calculateRunRate(runs, overs) {
-            return overs === 0 ? 0.0 : runs / overs;
+			const net_overs = Math.floor(overs);
+			const net_balls = ((overs - net_overs) * 10) + (net_overs * 6);
+            return overs === 0 ? 0.0 : (runs / net_balls)*6;
         }
 
         function calculateBattingPoints(matchData) {
@@ -983,6 +985,7 @@
     </script>
 </body>
 </html>
+
 
 
 
